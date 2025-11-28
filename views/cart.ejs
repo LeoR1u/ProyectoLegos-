@@ -1,0 +1,75 @@
+
+<%- include('header') %>
+    <h2>Tu Carrito</h2>
+    
+    <% if (cart.length === 0) { %>
+        <p>El carrito está vacío.</p>
+    <% } else { %>
+        <table id="cart-table">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    <th>Subtotal</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% cart.forEach(item => { %>
+                    <tr id="row-<%= item.id %>">
+                        <td><%= item.name %></td>
+                        <td>$<%= item.price %></td>
+                        <td>
+                            <button onclick="updateCart('<%= item.id %>', 'decrease')">-</button>
+                            <span id="qty-<%= item.id %>"><%= item.quantity %></span>
+                            <button onclick="updateCart('<%= item.id %>', 'increase')">+</button>
+                        </td>
+                        <td id="subtotal-<%= item.id %>">$<%= (item.price * item.quantity).toFixed(2) %></td>
+                        <td>
+                            <button class="btn-danger" onclick="updateCart('<%= item.id %>', 'remove')">Borrar</button>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+        
+        <div class="cart-summary">
+            <h3>Total: $<span id="grand-total"><%= total.toFixed(2) %></span></h3>
+            
+            <% if (user) { %>
+                <a href="/checkout" class="btn-checkout">Finalizar Compra y Descargar Ticket</a>
+            <% } else { %>
+                <p><i>Debes iniciar sesión para comprar.</i></p>
+                <a href="/login" class="btn">Ir a Login</a>
+            <% } %>
+        </div>
+    <% } %>
+
+    <script>
+        function updateCart(id, action) {
+            fetch('/update-cart', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id, action })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('grand-total').innerText = data.newTotal.toFixed(2);
+                    document.getElementById('nav-count').innerText = data.newCount;
+
+                    const item = data.cart.find(p => p.id == id);
+                    
+                    if (!item) {
+                        document.getElementById('row-' + id).remove();
+                        if(data.cart.length === 0) location.reload();
+                    } else {
+                        document.getElementById('qty-' + id).innerText = item.quantity;
+                        document.getElementById('subtotal-' + id).innerText = '$' + (item.price * item.quantity).toFixed(2);
+                    }
+                }
+            });
+        }
+    </script>
+<%- include('footer') %>

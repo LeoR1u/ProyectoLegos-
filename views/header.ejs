@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Lego Store</title>
+<link rel="stylesheet" href="/styles.css"></head>
+<body>
+    <nav>
+        <div class="logo">LEGO STORE</div>
+        <ul>
+            <li><a href="/">Productos</a></li>
+            <li><a href="/cart">Carrito (<span id="nav-count"><%= locals.cartCount || 0 %></span>)</a></li>
+            <% if (locals.user) { %>
+                <li><a href="/history">Mis Compras</a></li>
+                <li>Hola, <%= user.username %> (<a href="/logout">Salir</a>)</li>
+            <% } else { %>
+                <li><a href="/login">Login</a></li>
+                <li><a href="/register">Registro</a></li>
+            <% } %>
+        </ul>
+    </nav>
+    <div class="container">

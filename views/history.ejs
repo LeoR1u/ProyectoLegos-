@@ -1,0 +1,23 @@
+<%- include('header') %>
+<h2>Historial de Compras</h2>
+<table>
+    <thead>
+        <tr>
+            <th>ID Orden</th>
+            <th>Fecha</th>
+            <th>Productos</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% orders.forEach(order => { %>
+            <tr>
+                <td>#<%= order.id %></td>
+                <td><%= new Date(order.date).toLocaleString() %></td>
+                <td><%= order.items %></td>
+                <td>$<%= order.total %></td>
+            </tr>
+        <% }) %>
+    </tbody>
+</table>
+<%- include('footer') %>
