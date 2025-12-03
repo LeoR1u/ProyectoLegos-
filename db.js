@@ -1,5 +1,5 @@
 // db.js
-const mysql = require('mysql2');
+import mysql from 'mysql2';
 
 const db = mysql.createPool({
     host: process.env.MYSQLHOST,
@@ -10,4 +10,5 @@ const db = mysql.createPool({
     connectionLimit: 10
 });
 
-module.exports = db;
+// Exportación correcta para ESM
+export default db;
