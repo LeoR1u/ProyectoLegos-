@@ -1,14 +1,12 @@
-// db.js
-import mysql from 'mysql2';
+import mysql from "mysql2/promise";  // o "mysql2" según lo que uses
 
 const db = mysql.createPool({
-    host: process.env.MYSQLHOST,
-    user: process.env.MYSQLUSER,
-    password: process.env.MYSQLPASSWORD,
-    database: process.env.MYSQLDATABASE,
-    port: process.env.MYSQLPORT,
-    connectionLimit: 10
+  host: process.env.MYSQLHOST,
+  user: process.env.MYSQLUSER,
+  password: process.env.MYSQLPASSWORD,
+  database: process.env.MYSQLDATABASE,
+  port: process.env.MYSQLPORT,
+  connectionLimit: 10
 });
 
-// Exportación correcta para ESM
 export default db;
