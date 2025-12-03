@@ -2,27 +2,13 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Tienda LEGO</title>
-  <link rel="stylesheet" href="/css/styles.css">
+  <title>Tienda Lego</title>
+  <link rel="stylesheet" href="/styles.css">
 </head>
-
-<body class="dark">
-  <header class="header">
-    <h1>Tienda LEGO</h1>
-    <nav>
-      <a href="/">Inicio</a>
-      <a href="/cart">Carrito</a>
-      <% if (user) { %>
-        <a href="/history">Historial</a>
-        <a href="/logout">Salir</a>
-      <% } else { %>
-        <a href="/login">Login</a>
-      <% } %>
-    </nav>
-  </header>
-
+<body>
+  <%- include("navbar") %>
   <main>
-    <%- body %>  <!-- aquí se inserta cada vista -->
+    <%- body %>
   </main>
 </body>
 </html>

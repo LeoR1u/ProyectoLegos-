@@ -1,23 +1,42 @@
-<%- include('header') %>
-<h2>Historial de Compras</h2>
-<table>
+<h2>Historial de compras</h2>
+
+<% if (!orders || orders.length === 0) { %>
+  <p>No se han encontrado compras.</p>
+<% } else { %>
+  <table class="history-table">
     <thead>
-        <tr>
-            <th>ID Orden</th>
-            <th>Fecha</th>
-            <th>Productos</th>
-            <th>Total</th>
-        </tr>
+      <tr>
+        <th>ID Orden</th>
+        <th>Fecha</th>
+        <th>Productos</th>
+        <th>Total</th>
+      </tr>
     </thead>
     <tbody>
-        <% orders.forEach(order => { %>
-            <tr>
-                <td>#<%= order.id %></td>
-                <td><%= new Date(order.date).toLocaleString() %></td>
-                <td><%= order.items %></td>
-                <td>$<%= order.total %></td>
-            </tr>
-        <% }) %>
+      <% orders.forEach(order => { %>
+        <tr>
+          <td>#<%= order.id %></td>
+          <td><%= new Date(order.created_at).toLocaleString() %></td>
+          <td>
+            <ul>
+              <% order.items.forEach(item => { %>
+                <li>
+                  <strong><%= item.name || 'Producto eliminado' %></strong>
+                  — <%= item.quantity %> × $<%= Number(item.price).toFixed(2) %>
+                  = $<%= Number(item.quantity * item.price).toFixed(2) %>
+                </li>
+              <% }) %>
+            </ul>
+          </td>
+          <td>$<%= Number(order.total).toFixed(2) %></td>
+        </tr>
+      <% }) %>
     </tbody>
-</table>
-<%- include('footer') %>
+  </table>
+<% } %>
+
+<style>
+  .history-table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+  .history-table th, .history-table td { padding: 8px; border-bottom: 1px solid rgba(0,0,0,0.08); vertical-align: top; }
+  .history-table ul { margin: 0; padding-left: 18px; }
+</style>

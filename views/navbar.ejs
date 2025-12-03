@@ -1,0 +1,10 @@
+<nav>
+  <a href="/">Inicio</a>
+  <% if (!user) { %>
+    <a href="/login">Login</a>
+    <a href="/register">Registro</a>
+  <% } else { %>
+    <a href="/cart">Carrito</a>
+    <a href="/logout">Salir (<%= user.usuario %>)</a>
+  <% } %>
+</nav>

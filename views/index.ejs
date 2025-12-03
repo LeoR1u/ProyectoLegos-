@@ -1,19 +1,19 @@
-<%- include('header') %>
-    <h2>Catálogo de LEGOs</h2>
-    <div class="product-grid">
-        <% products.forEach(product => { %>
-            <div class="card">
-                <img src="<%= product.image_url %>" alt="<%= product.name %>">
-                <h3><%= product.name %></h3>
-                <p class="price">$<%= product.price %></p>
-                <form action="/add-to-cart" method="POST">
-                    <input type="hidden" name="id" value="<%= product.id %>">
-                    <input type="hidden" name="name" value="<%= product.name %>">
-                    <input type="hidden" name="price" value="<%= product.price %>">
-                    <input type="hidden" name="image" value="<%= product.image_url %>">
-                    <button type="submit">Agregar al Carrito</button>
-                </form>
-            </div>
-        <% }) %>
+<h1>Catálogo</h1>
+
+<div class="grid">
+  <% products.forEach(p => { %>
+    <div class="card">
+      <img src="<%= p.image %>" width="200">
+      <h3><%= p.name %></h3>
+      <p>$<%= p.price %></p>
+
+      <% if (user) { %>
+        <form action="/add-to-cart/<%= p.id %>" method="POST">
+          <button type="submit">Añadir al carrito</button>
+        </form>
+      <% } else { %>
+        <p><a href="/login">Inicia sesión para comprar</a></p>
+      <% } %>
     </div>
-<%- include('footer') %>
+  <% }) %>
+</div>
